@@ -18,6 +18,7 @@ namespace FundooNotes.Controllers
             this.fundooContext = fundoo;
             this.userBL = userBL;
         }
+
         [HttpPost("Register")]
         public IActionResult AddUser(UserModel user)
         {
@@ -31,6 +32,7 @@ namespace FundooNotes.Controllers
                 throw;
             }
         }
+
         [HttpPost("login/{email}/{password}")]
         public IActionResult LoginUser(string email, string password)
         {

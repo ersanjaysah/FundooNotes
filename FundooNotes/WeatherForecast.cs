@@ -4,6 +4,9 @@ namespace FundooNotes
 {
     public class WeatherForecast
     {
+        /// <summary>
+        /// used get set property
+        /// </summary>
         public DateTime Date { get; set; }
 
         public int TemperatureC { get; set; }

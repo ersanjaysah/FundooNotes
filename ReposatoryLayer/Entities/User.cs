@@ -8,7 +8,7 @@ namespace ReposatoryLayer.Entities
 {
     public class User
     {
-        [Key ]
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Userid { get; set; }
         public string FirstName { get; set; }

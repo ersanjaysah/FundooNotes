@@ -15,7 +15,6 @@ namespace BussinessLayer.Services
             this.userRL = userRL;
         }
 
-
         public void AddUser(UserModel user)
         {
             try

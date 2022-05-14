@@ -15,13 +15,17 @@ namespace ReposatoryLayer.Services
 {
     public class UserRL : IUserRL
     {
-        FundooContext fundoo;
+        FundooContext fundoo; // used field here
         public IConfiguration Configuration { get; set; }
         public UserRL(FundooContext fundoo, IConfiguration configuration)
         {
             this.fundoo = fundoo;
             this.Configuration = configuration;
         }
+        /// <summary>
+        /// Used method of Add user
+        /// </summary>
+        /// <param name="user"></param>
         public void AddUser(UserModel user)
         {
             try
@@ -42,6 +46,13 @@ namespace ReposatoryLayer.Services
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// used method of Login user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
 
         public string LoginUser(string email, string password)
         {

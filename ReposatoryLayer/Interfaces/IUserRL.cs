@@ -10,6 +10,5 @@ namespace ReposatoryLayer.Interfaces
     {
         public void AddUser(UserModel user);
         public string LoginUser(string email, string password);
-
     }
 }

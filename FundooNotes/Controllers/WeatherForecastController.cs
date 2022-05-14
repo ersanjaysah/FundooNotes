@@ -9,7 +9,7 @@ namespace FundooNotes.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class WeatherForecastController : ControllerBase //inherited Controllerbase class
     {
         private static readonly string[] Summaries = new[]
         {
