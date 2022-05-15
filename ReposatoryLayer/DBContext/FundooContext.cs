@@ -8,7 +8,11 @@ namespace ReposatoryLayer.DBContext
 {
     public class FundooContext : DbContext
     {
-        public FundooContext(DbContextOptions options) : base(options) { } //inherited base class
+        public FundooContext(DbContextOptions options) : base(options)
+        {
+
+        }
+         
         public DbSet<User> Users { get; set; }
     }    
 }

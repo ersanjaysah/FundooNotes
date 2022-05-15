@@ -7,11 +7,9 @@ namespace BussinessLayer.Interfaces
 {
     public interface IUserBL
     {
-        /// <summary>
-        /// seme method used here from IUserRL
-        /// </summary>
-        /// <param name="user"></param>
-        public void AddUser(UserModel user);
-        public string LoginUser(string email, string password);
+        public void AddUser(UserModel user);//Add method
+        public string LoginUser(string email, string password);//login method
+
+        public bool ForgotPassword(string email); //This method used for Forgot Password
     }
 }

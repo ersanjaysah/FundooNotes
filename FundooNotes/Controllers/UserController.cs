@@ -44,7 +44,7 @@ namespace FundooNotes.Controllers
                     return this.BadRequest(new { success = false, message = $"email and password is invalid" });
 
                 }
-                
+
                 var result = this.userBL.LoginUser(email, password);
                 return this.Ok(new { success = true, message = $"login successfull {result}" });
 
@@ -55,7 +55,36 @@ namespace FundooNotes.Controllers
                 throw ex;
             }
         }
+        [HttpPost("ForgotPassword/{email}")]
+        public ActionResult ForgotPassword(string email)
+        {
+            try
+            {
+                var Result = this.userBL.ForgotPassword(email);
+                if (Result != false)
+                {
+                    return this.Ok(new
+
+                    {
+                        success = true,
+                        message = $"mail sent sucessfully" + $"token: {Result}"
+                    });
+                }
+                
+                return this.BadRequest(new { success = false, message = $"mail not sent" });
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
     }
 }
+
+    
+
 
 
