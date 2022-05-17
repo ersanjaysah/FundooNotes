@@ -3,6 +3,7 @@ using DataBaseLayer.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReposatoryLayer.DBContext;
+using ReposatoryLayer.Services;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -15,10 +16,12 @@ namespace FundooNotes.Controllers
     {
         FundooContext fundooContext;
         IUserBL userBL;
+        StringCipher stringCipher;
         public UserController(FundooContext fundoo, IUserBL userBL)
         {
             this.fundooContext = fundoo;
             this.userBL = userBL;
+            
         }
 
         [HttpPost("Register")]
@@ -40,15 +43,17 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                //var userdata = fundooContext.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
-                //if (userdata == null)
-                //{
-                //    return this.BadRequest(new { success = false, message = $"email and password is invalid" });
+                
+                var userdata = fundooContext.Users.FirstOrDefault(u => u.Email == email);
+               string Password = StringCipher.DecodeFrom64(userdata.Password); 
+                if (userdata == null)
+                {
+                    return this.BadRequest(new { success = false, message = $"email and password is invalid" });
 
-                //}
+                }
 
-                var result = this.userBL.LoginUser(email, password);
-                return this.Ok(new { success = true, message = $"login successfull {result}" });
+                string result = this.userBL.LoginUser(email, Password);
+                return this.Ok(new { success = true, message = $"login successfull {result}",Token=result });
 
             }
             catch (Exception ex)
