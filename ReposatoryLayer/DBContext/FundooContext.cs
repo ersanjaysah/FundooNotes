@@ -14,5 +14,13 @@ namespace ReposatoryLayer.DBContext
         }
          
         public DbSet<User> Users { get; set; }
+
+        //method to used unique EmailId
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasIndex(u=>u.Email)
+                .IsUnique();
+        }
     }    
 }

@@ -11,5 +11,7 @@ namespace BussinessLayer.Interfaces
         public string LoginUser(string email, string password);//login method
 
         public bool ForgotPassword(string email); //This method used for Forgot Password
+
+        public bool ChangePassword(string Email,ChangePasswardModel changePassward); // method for change password 
     }
 }

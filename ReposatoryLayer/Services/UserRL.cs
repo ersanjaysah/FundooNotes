@@ -41,7 +41,7 @@ namespace ReposatoryLayer.Services
                 userdata.FirstName = user.FirstName;
                 userdata.Lastname = user.Lastname;
                 userdata.Email = user.Email;
-                userdata.Password = user.Password;
+                userdata.Password = StringCipher.EncodePasswordToBase64(user.Password);
                 userdata.Address = user.Address;
                 fundoo.Add(userdata);
                 fundoo.SaveChanges();
@@ -52,6 +52,10 @@ namespace ReposatoryLayer.Services
                 throw ex;
             }
         }
+        //Decrept password
+
+
+
 
         /// <summary>
         /// used method of Login user
@@ -59,14 +63,16 @@ namespace ReposatoryLayer.Services
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-
         public string LoginUser(string email, string password)
         {
 
             try
-            {
-                var result = fundoo.Users.Where(u => u.Email == email && u.Password == password).FirstOrDefault();
-                if (result == null)
+            { 
+
+                var result = fundoo.Users.Where(u => u.Email == email).FirstOrDefault();
+                string pass= StringCipher.DecodeFrom64(result.Password);
+
+                if (pass != password)
                 {
                     return null;
                 }
@@ -155,7 +161,7 @@ namespace ReposatoryLayer.Services
             }
             catch (MessageQueueException ex)
             {
-                if (ex.MessageQueueErrorCode ==MessageQueueErrorCode.AccessDenied)
+                if (ex.MessageQueueErrorCode == MessageQueueErrorCode.AccessDenied)
                 {
                     Console.WriteLine("Access is denied. " +
                         "Queue might be a system queue.");
@@ -188,9 +194,58 @@ namespace ReposatoryLayer.Services
             return tokenHandler.WriteToken(token);
         }
 
-      
 
+        //method to encode the password
+
+        public static string EncryptPassword(string password)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(password))
+                {
+                    return null;
+
+                }
+                else
+                {
+                    byte[] b = Encoding.ASCII.GetBytes(password);
+                    string encrypted = Convert.ToBase64String(b);
+                    return encrypted;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
+        public bool ChangePassword(string Email, ChangePasswardModel changePassward)
+        {
+            try
+            {
+                if (changePassward.Password.Equals(changePassward.ConfirmPassword))
+                {
+                    var user = fundoo.Users.Where(x => x.Email == Email).FirstOrDefault();
+                    user.Password=StringCipher.EncodePasswordToBase64(changePassward.ConfirmPassword);
+                    fundoo.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
-    
+
+
+
 

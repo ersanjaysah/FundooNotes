@@ -52,6 +52,19 @@ namespace BussinessLayer.Services
             }
 
         }
+
+        public bool ChangePassword(string Email,ChangePasswardModel changePassward)
+        {
+            try
+            {
+                return this.userRL.ChangePassword(Email,changePassward);
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 
