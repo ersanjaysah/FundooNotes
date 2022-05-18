@@ -39,7 +39,7 @@ namespace FundooNotes.Controllers
                 int userId = Int32.Parse(userid.Value);
                 await this.noteBL.AddNote(notesPostModel, userId);
 
-                return this.Ok(new { success = true, message = $"User Added Successfully" });
+                return this.Ok(new { success = true, message = $"Note Added Successfully" });
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace FundooNotes.Controllers
                 var note = fundooContext.Notes.FirstOrDefault(u => u.Userid == UserId && u.NoteID == noteId);
                 if (note == null)
                 {
-                    return this.BadRequest(new { success = false, message = "Failed to Update note" });
+                    return this.BadRequest(new { success = false, message = " Sorry!!! Failed to Update note" });
                 }
                 await this.noteBL.UpdateNote(UserId, noteId, noteUpdateModel);
                 return this.Ok(new { success = true, message = "Note Updated successfully!!!" });
@@ -93,7 +93,7 @@ namespace FundooNotes.Controllers
                 var note = fundooContext.Notes.FirstOrDefault(u => u.Userid == UserId && u.NoteID == noteId);
                 if (note == null)
                 {
-                    return this.BadRequest(new { success = false, message = "Oops! This note is not available " });
+                    return this.BadRequest(new { success = false, message = "Oops!! This note is not available " });
 
                 }
                 await this.noteBL.DeleteNote(noteId, UserId);
@@ -124,7 +124,7 @@ namespace FundooNotes.Controllers
                 var note = fundooContext.Notes.FirstOrDefault(u => u.Userid == UserId && u.NoteID == noteId);
                 if (note == null)
                 {
-                    return this.BadRequest(new { success = false, message = "Sorry! Note does not exist" });
+                    return this.BadRequest(new { success = false, message = "Sorry!!! Note does not exist" });
                 }
 
                 await this.noteBL.ChangeColour(UserId, noteId, colour);
@@ -138,7 +138,7 @@ namespace FundooNotes.Controllers
         }
 
         /// <summary>
-        /// Archive Notes
+        /// Add Archive in Notes
         /// </summary>
         /// <param name="noteId"></param>
         /// <returns></returns>
@@ -154,7 +154,7 @@ namespace FundooNotes.Controllers
                 var note = fundooContext.Notes.FirstOrDefault(u => u.Userid == userId && u.NoteID == noteId);
                 if (note == null)
                 {
-                    return this.BadRequest(new { success = false, message = "Failed to archieve notes or Id does not exists" });
+                    return this.BadRequest(new { success = false, message = " Sorry !!! Failed to archieve notes" });
                 }
                 await this.noteBL.ArchiveNote(userId, noteId);
                 return this.Ok(new { success = true, message = "Note Archieved successfully" });
@@ -164,9 +164,16 @@ namespace FundooNotes.Controllers
                 throw ex;
             }
         }
+
+        /// <summary>
+        ///Add Remainder in Note
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <param name="remainder"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut("remainderNote/{noteId}/{remainder}")]
-        public async Task<ActionResult> RemainderNote(int noteId,DateTime remainder)
+        public async Task<ActionResult> RemainderNote(int noteId, DateTime remainder)
         {
             try
             {
@@ -186,5 +193,64 @@ namespace FundooNotes.Controllers
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// Trash method created
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPut("Trash/{noteId}")]
+        public async Task<ActionResult> IsTrash(int noteId)
+        {
+            try
+            {
+                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("userID", StringComparison.InvariantCultureIgnoreCase));
+                int userId = Int32.Parse(userid.Value);
+
+                var note = fundooContext.Notes.FirstOrDefault(u => u.Userid == userId && u.NoteID  == noteId);
+                if (note == null)
+                {
+                    return this.BadRequest(new { success = false, message = " Sorry!!! Failed to Trash Note" });
+                }
+                await this.noteBL.Trash(userId, noteId);
+                return this.Ok(new { success = true, message = "Trashed successfully!!!" });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        /// <summary>
+        /// Pin method added in notes
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPut("IsPin/{noteId}")]
+        public async Task<ActionResult> IsPin(int noteId)
+        {
+            try
+            {
+                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("userID", StringComparison.InvariantCultureIgnoreCase));
+                int userId = Int32.Parse(userid.Value);
+
+                var note = fundooContext.Notes.FirstOrDefault(u => u.Userid == userId && u.NoteID == noteId);
+                if (note == null)
+                {
+                    return this.BadRequest(new { success = false, message = " Sorry!!! Failed to Pin note" });
+                }
+                await this.noteBL.Pin(userId, noteId);
+                return this.Ok(new { success = true, message = "Pin Added successfully!!!" });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
     }
 }

@@ -43,6 +43,7 @@ namespace ReposatoryLayer.Services
                 userdata.Email = user.Email;
                 userdata.Password = StringCipher.EncodePasswordToBase64(user.Password);
                 userdata.Address = user.Address;
+                userdata.CreatedDate = DateTime.Now;
                 fundoo.Add(userdata);
                 fundoo.SaveChanges();
 

@@ -17,6 +17,8 @@ namespace BussinessLayer.Services
             this.noteRL = noteRL;
         }
 
+      
+
         public async Task AddNote(NotesPostModel notesPostModel, int UserID)
         {
 
@@ -73,6 +75,20 @@ namespace BussinessLayer.Services
             }
         }
 
+        public async Task Pin(int userId, int noteId)
+        {
+            try
+            {
+               await this.noteRL.Pin(userId, noteId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
         public async Task Remainder(int userId, int noteId, DateTime remainder)
         {
             try
@@ -85,6 +101,20 @@ namespace BussinessLayer.Services
                 throw ex;
             }
             
+        }
+
+        public async Task Trash(int userId, int noteId)
+        {
+            try
+            {
+               await this.noteRL.Trash(userId,noteId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         public async Task<Note> UpdateNote(int userId, int noteId, NoteUpdateModel noteUpdateModel)

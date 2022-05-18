@@ -66,10 +66,10 @@ namespace ReposatoryLayer.Services
                 return await fundoo.Notes.Where(u => u.Userid == u.Userid && u.NoteID == noteId).Include(u => u.user).FirstOrDefaultAsync();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 
@@ -108,10 +108,10 @@ namespace ReposatoryLayer.Services
                     await fundoo.SaveChangesAsync();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 
@@ -137,10 +137,10 @@ namespace ReposatoryLayer.Services
                 await fundoo.SaveChangesAsync();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 
@@ -157,11 +157,65 @@ namespace ReposatoryLayer.Services
                 }
                 await fundoo.SaveChangesAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
+        }
+
+        public async Task Trash(int userId, int noteId)
+        {
+            try
+            {
+                var note=fundoo.Notes.FirstOrDefault(u=>u.Userid==userId&& u.NoteID==noteId);
+                if (note!=null)
+                {
+                    if (note.IsTrash==true)
+                    {
+                        note.IsTrash = false;
+                    }
+                    if (note.IsTrash==false)
+                    {
+                        note.IsTrash = true;
+                    }
+                }
+               await fundoo.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public async Task Pin(int userId, int noteId)
+        {
+            try
+            {
+               var note= fundoo.Notes.FirstOrDefault(u => u.Userid == userId && u.NoteID == noteId);
+                if (note!=null)
+                {
+                    if (note.IsPin==true)
+                    {
+                        note.IsPin = false;
+                    }
+                    if (note.IsPin == false)
+                    {
+                        note.IsPin = true;
+                    }
+                }
+               await fundoo.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
     }
 }

@@ -53,7 +53,7 @@ namespace FundooNotes.Controllers
                 }
 
                 string result = this.userBL.LoginUser(email, Password);
-                return this.Ok(new { success = true, message = $"login successfull {result}",Token=result });
+                return this.Ok(new { success = true, message = "login successfull",Token=result });
 
             }
             catch (Exception ex)
