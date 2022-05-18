@@ -16,5 +16,8 @@ namespace ReposatoryLayer.Interfaces
         Task ChangeColour(int userId, int noteId, string colour);
 
         Task ArchiveNote(int userId, int noteId);
+        Task Remainder(int userId, int noteId,DateTime remainder);
+
+
     }
 }
