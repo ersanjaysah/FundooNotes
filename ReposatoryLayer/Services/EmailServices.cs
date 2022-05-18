@@ -20,7 +20,8 @@ namespace ReposatoryLayer.Services
                 msgObj.To.Add(email);
                 msgObj.From = new MailAddress("san1997sah@gmail.com");
                 msgObj.Subject = "Password Reset Link";
-                msgObj.Body = $"www.fundooNotes.com/reset-password/{token}";
+                 msgObj.Body = $"www.fundooNotes.com/reset-password/{token}";
+
                 client.Send(msgObj);
             }
         }
