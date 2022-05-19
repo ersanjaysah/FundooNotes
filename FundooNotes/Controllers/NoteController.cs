@@ -69,6 +69,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.BadRequest(new { success = false, message = " Sorry!!! Failed to Update note" });
                 }
+                if (note.IsTrash == true)
+                {
+                    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
+                }
                 await this.noteBL.UpdateNote(UserId, noteId, noteUpdateModel);
                 return this.Ok(new { success = true, message = "Note Updated successfully!!!" });
             }
@@ -97,6 +101,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.BadRequest(new { success = false, message = "Oops!! This note is not available " });
 
+                }
+                if (note.IsTrash == true)
+                {
+                    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
                 }
                 await this.noteBL.DeleteNote(noteId, UserId);
                 return this.Ok(new { success = true, message = "Note Deleted Successfully" });
@@ -128,6 +136,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.BadRequest(new { success = false, message = "Sorry!!! Note does not exist" });
                 }
+                if (note.IsTrash == true)
+                {
+                    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
+                }
 
                 await this.noteBL.ChangeColour(UserId, noteId, colour);
                 return this.Ok(new { success = true, message = "Note Colour Changed Successfully " });
@@ -158,6 +170,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.BadRequest(new { success = false, message = " Sorry !!! Failed to archieve notes" });
                 }
+                if (note.IsTrash == true)
+                {
+                    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
+                }
                 await this.noteBL.ArchiveNote(userId, noteId);
                 return this.Ok(new { success = true, message = "Note Archieved successfully" });
             }
@@ -185,8 +201,13 @@ namespace FundooNotes.Controllers
                 var note = fundooContext.Notes.FirstOrDefault(u => u.Userid == userId && u.NoteID == noteId);
                 if (note == null)
                 {
-                    return this.BadRequest(new { success = false, message = "Sorry !! Note does't Exist" });
+                     return this.BadRequest(new { success = false, message = "Sorry !! Note does't Exist" });
                 }
+                if (note.IsTrash == true)
+                {
+                    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
+                }
+               
                 await this.noteBL.Remainder(userId, noteId, remainder);
                 return this.Ok(new { success = true, message = "Remainder Sets Successfully!!!" });
             }
@@ -215,6 +236,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.BadRequest(new { success = false, message = " Sorry!!! Failed to Trash Note" });
                 }
+                if (note.IsTrash == true)
+                {
+                    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
+                }
                 await this.noteBL.Trash(userId, noteId);
                 return this.Ok(new { success = true, message = "Trash added successfully!!!" });
             }
@@ -240,9 +265,14 @@ namespace FundooNotes.Controllers
                 int userId = Int32.Parse(userid.Value);
 
                 var note = fundooContext.Notes.FirstOrDefault(u => u.Userid == userId && u.NoteID == noteId);
+
                 if (note == null)
                 {
                     return this.BadRequest(new { success = false, message = " Sorry!!! Failed to Pin note" });
+                }
+                if (note.IsTrash == true)
+                {
+                    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
                 }
                 await this.noteBL.Pin(userId, noteId);
                 return this.Ok(new { success = true, message = "Pin Added successfully!!!" });

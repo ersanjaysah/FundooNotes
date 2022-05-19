@@ -19,6 +19,31 @@ namespace ReposatoryLayer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("ReposatoryLayer.Entities.Labels", b =>
+                {
+                    b.Property<int>("LabelId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("LabelName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NoteID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Userid")
+                        .HasColumnType("int");
+
+                    b.HasKey("LabelId");
+
+                    b.HasIndex("NoteID");
+
+                    b.HasIndex("Userid");
+
+                    b.ToTable("labels");
+                });
+
             modelBuilder.Entity("ReposatoryLayer.Entities.Note", b =>
                 {
                     b.Property<int>("NoteID")
@@ -98,6 +123,21 @@ namespace ReposatoryLayer.Migrations
                         .HasFilter("[Email] IS NOT NULL");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("ReposatoryLayer.Entities.Labels", b =>
+                {
+                    b.HasOne("ReposatoryLayer.Entities.Note", "note")
+                        .WithMany()
+                        .HasForeignKey("NoteID");
+
+                    b.HasOne("ReposatoryLayer.Entities.User", "user")
+                        .WithMany()
+                        .HasForeignKey("Userid");
+
+                    b.Navigation("note");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("ReposatoryLayer.Entities.Note", b =>
