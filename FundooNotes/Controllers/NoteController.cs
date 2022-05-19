@@ -3,7 +3,9 @@ using DataBaseLayer.Notes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReposatoryLayer.DBContext;
+using ReposatoryLayer.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -214,7 +216,7 @@ namespace FundooNotes.Controllers
                     return this.BadRequest(new { success = false, message = " Sorry!!! Failed to Trash Note" });
                 }
                 await this.noteBL.Trash(userId, noteId);
-                return this.Ok(new { success = true, message = "Trashed successfully!!!" });
+                return this.Ok(new { success = true, message = "Trash added successfully!!!" });
             }
             catch (Exception ex)
             {
@@ -229,7 +231,7 @@ namespace FundooNotes.Controllers
         /// <param name="noteId"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPut("IsPin/{noteId}")]
+        [HttpPut("Pin/{noteId}")]
         public async Task<ActionResult> IsPin(int noteId)
         {
             try
@@ -250,6 +252,29 @@ namespace FundooNotes.Controllers
                 throw ex;
             }
 
+        }
+
+        /// <summary>
+        /// Get All notes
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("GetAllNotes")]
+        public async Task<ActionResult> GetAllNotes()
+        {
+            try
+            {
+                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("userID", StringComparison.InvariantCultureIgnoreCase));
+                int userId = Int32.Parse(userid.Value);
+                List<Note> result = new List<Note>();
+                result = await this.noteBL.GetAllNotes(userId);
+                return this.Ok(new {success=true,message=$"Here is your all Notes", data=result});
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }

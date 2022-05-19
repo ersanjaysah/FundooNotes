@@ -17,8 +17,6 @@ namespace BussinessLayer.Services
             this.noteRL = noteRL;
         }
 
-      
-
         public async Task AddNote(NotesPostModel notesPostModel, int UserID)
         {
 
@@ -73,6 +71,19 @@ namespace BussinessLayer.Services
 
                 throw ex;
             }
+        }
+
+        public Task<List<Note>> GetAllNotes(int userId)
+        {
+            try
+            {
+                return this.noteRL.GetAllNotes(userId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public async Task Pin(int userId, int noteId)

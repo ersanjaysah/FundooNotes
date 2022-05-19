@@ -20,7 +20,7 @@ namespace ReposatoryLayer.Services
 {
     public class UserRL : IUserRL
     {
-        FundooContext fundoo; // used field here
+        FundooContext fundoo;
         public IConfiguration Configuration { get; }
 
 
@@ -37,7 +37,7 @@ namespace ReposatoryLayer.Services
         {
             try
             {
-                User userdata = new User();
+                User userdata = new User(); //Created instance of User class
                 userdata.FirstName = user.FirstName;
                 userdata.Lastname = user.Lastname;
                 userdata.Email = user.Email;
@@ -53,11 +53,7 @@ namespace ReposatoryLayer.Services
                 throw ex;
             }
         }
-        //Decrept password
-
-
-
-
+        
         /// <summary>
         /// used method of Login user
         /// </summary>
@@ -65,7 +61,7 @@ namespace ReposatoryLayer.Services
         /// <param name="password"></param>
         /// <returns></returns>
         public string LoginUser(string email, string password)
-        {
+         {
 
             try
             { 
