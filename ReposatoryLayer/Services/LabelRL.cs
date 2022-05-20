@@ -1,9 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using ReposatoryLayer.DBContext;
 using ReposatoryLayer.Entities;
 using ReposatoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,5 +40,35 @@ namespace ReposatoryLayer.Services
                 throw ex;
             }
         }
+
+        public async Task<List<Labels>> GetLabelByuserId(int userId)
+        {
+            try
+            {
+                List<Labels> reuslt =await fundoo.labels.Where(u => u.Userid == userId).ToListAsync();
+                return reuslt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public async Task<List<Labels>> GetlabelByNoteId(int userId,int NoteId)
+        {
+            try
+            {
+                List<Labels> reuslt = await fundoo.labels.Where(u => u.NoteID == NoteId && u.Userid==userId).Include(u => u.user).Include(u => u.note).ToListAsync();
+                return reuslt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+       
+
     }
 }

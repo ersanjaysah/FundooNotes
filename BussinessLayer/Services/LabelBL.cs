@@ -1,4 +1,5 @@
 ﻿using BussinessLayer.Interfaces;
+using ReposatoryLayer.Entities;
 using ReposatoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,46 @@ namespace BussinessLayer.Services
             }
             
 
+        }
+
+        //public async Task<List<Labels>> GetLabelByNoteId(int noteId)
+        //{
+        //    try
+        //    {
+        //      return await this.labelRL.GetlabelByNoteId(noteId);
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+            
+        //}
+
+        public async Task<List<Labels>> GetLabelByNoteId(int userId, int noteId)
+        {
+            try
+            {
+                return await this.labelRL.GetlabelByNoteId(userId,noteId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public async Task<List<Labels>> GetLabelByuserId(int userId)
+        {
+            try
+            {
+               return await this.labelRL.GetLabelByuserId(userId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

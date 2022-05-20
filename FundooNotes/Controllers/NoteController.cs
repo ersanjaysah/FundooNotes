@@ -69,10 +69,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.BadRequest(new { success = false, message = " Sorry!!! Failed to Update note" });
                 }
-                if (note.IsTrash == true)
-                {
-                    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
-                }
+                //if (note.IsTrash == true)
+                //{
+                //    return this.BadRequest(new { success = false, message = "sorry!! Note Already deleted, please create new note" });
+                //}
                 await this.noteBL.UpdateNote(UserId, noteId, noteUpdateModel);
                 return this.Ok(new { success = true, message = "Note Updated successfully!!!" });
             }
@@ -99,13 +99,10 @@ namespace FundooNotes.Controllers
                 var note = fundooContext.Notes.FirstOrDefault(u => u.Userid == UserId && u.NoteID == noteId);
                 if (note == null)
                 {
-                    return this.BadRequest(new { success = false, message = "Oops!! This note is not available " });
+                    return this.BadRequest(new { success = false, message = "Oops!! This note is not available" });
 
                 }
-                if (note.IsTrash == true)
-                {
-                    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
-                }
+                
                 await this.noteBL.DeleteNote(noteId, UserId);
                 return this.Ok(new { success = true, message = "Note Deleted Successfully" });
             }
@@ -138,7 +135,7 @@ namespace FundooNotes.Controllers
                 }
                 if (note.IsTrash == true)
                 {
-                    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
+                    return this.BadRequest(new { success = false, message = "sorry!! Note Already deleted, please create new note" });
                 }
 
                 await this.noteBL.ChangeColour(UserId, noteId, colour);
