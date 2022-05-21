@@ -12,5 +12,11 @@ namespace ReposatoryLayer.Interfaces
         Task AddLabel(int userID, int noteID, string labelName);
         Task<List<Labels>> GetLabelByuserId(int userId);
         Task<List<Labels>> GetlabelByNoteId(int userId, int NoteId);
+        Task<Labels> UpdateLabel(int userID, int LabelId, string LabelName);
+        Task DeleteLabel(int labelId, int userId);
+
+
+
+
     }
 }

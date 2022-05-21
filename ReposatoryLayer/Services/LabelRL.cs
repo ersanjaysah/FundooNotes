@@ -68,7 +68,57 @@ namespace ReposatoryLayer.Services
             }
         }
 
-       
+        public async Task<Labels> UpdateLabel(int userID, int LabelId, string LabelName)
+        {
+            try
+            {
+                var reuslt = fundoo.labels.FirstOrDefault(u => u.LabelId == LabelId && u.Userid == userID);
+
+                if (reuslt != null)
+                {
+                    reuslt.LabelName = LabelName;
+                    await fundoo.SaveChangesAsync();
+                    var result = fundoo.labels.Where(u => u.LabelId == LabelId).FirstOrDefaultAsync();
+                    return reuslt;
+                }
+
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
+
+        public async Task DeleteLabel(int labelId, int userId)
+        {
+            try
+            {
+                var result = fundoo.labels.FirstOrDefault(u => u.LabelId == labelId && u.Userid == userId);
+                fundoo.labels.Remove(result);
+                await fundoo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+      
 
     }
+    
 }
+        
+
+
+    
+    
+

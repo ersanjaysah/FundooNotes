@@ -38,19 +38,13 @@ namespace FundooNotes.Controllers
             {
                 var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("UserID", StringComparison.InvariantCultureIgnoreCase));
                 int userID = Int32.Parse(userid.Value);
-                //int noteId = Int32.Parse(userid.Value);
-
                 await this.labelBL.AddLabel(userID,noteId,labelName);
                 return this.Ok(new { success = true, message = "Lable Added Successfully " });
-
-
             }
             catch (System.Exception ex)
             {
-
                 throw ex;
             }
-
         }
 
         /// <summary>
@@ -107,5 +101,43 @@ namespace FundooNotes.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPut("UpdateLabel/{LabelId}/{LabelName}")]
+        public async Task<ActionResult> UpdateLabel(string LabelName, int LabelId)
+        {
+            try
+            {
+                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("userID", StringComparison.InvariantCultureIgnoreCase));
+                int userId = Int32.Parse(userid.Value);
+
+                var result = await this.labelBL.UpdateLabel(userId, LabelId, LabelName);
+                if (result == null)
+                {
+                    return this.BadRequest(new { success = true, message = "Updation of Label failed" });
+                }
+                return this.Ok(new { success = true, message = $"Label updated successfully" });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("DeleteLabel/{labelId}")]
+        public async Task<ActionResult> DeleteLabel(int labelId)
+        {
+            try
+            {
+                var userid = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("userId", StringComparison.InvariantCultureIgnoreCase));
+                int userId = Int32.Parse(userid.Value);
+                await this.labelBL.DeleteLabel(labelId, userId);
+                return this.Ok(new { success = true, message = $"Label Deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

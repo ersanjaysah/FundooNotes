@@ -20,30 +20,26 @@ namespace BussinessLayer.Services
         {
             try
             {
-               await this.labelRL.AddLabel(userID,noteID,labelName);
+                await this.labelRL.AddLabel(userID, noteID, labelName);
             }
             catch (Exception ex)
             {
 
                 throw ex;
             }
-            
-
         }
 
-        //public async Task<List<Labels>> GetLabelByNoteId(int noteId)
-        //{
-        //    try
-        //    {
-        //      return await this.labelRL.GetlabelByNoteId(noteId);
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        throw ex;
-        //    }
-            
-        //}
+        public async Task DeleteLabel(int labelId, int userId)
+        {
+            try
+            {
+                await this.labelRL.DeleteLabel(labelId, userId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public async Task<List<Labels>> GetLabelByNoteId(int userId, int noteId)
         {
@@ -69,6 +65,20 @@ namespace BussinessLayer.Services
 
                 throw ex;
             }
+        }
+
+        public async Task<Labels> UpdateLabel(int userID, int LabelId, string LabelName)
+        {
+
+            try
+            {
+                return await this.labelRL.UpdateLabel(userID, LabelId, LabelName);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 }
