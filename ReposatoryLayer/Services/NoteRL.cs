@@ -128,7 +128,7 @@ namespace ReposatoryLayer.Services
                         note.IsArchive = false;
                     }
 
-                    if (note.IsArchive == false)
+                    else
                     {
                         note.IsArchive = true;
                     }
@@ -175,7 +175,7 @@ namespace ReposatoryLayer.Services
                     {
                         note.IsTrash = false;
                     }
-                    if (note.IsTrash==false)
+                    else
                     {
                         note.IsTrash = true;
                     }

@@ -73,6 +73,17 @@ namespace FundooNotes
             };
         });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                name: "AllowOrigin",
+              builder =>
+              {
+                  builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+              });
+            });
+
+
             services.AddSwaggerGen(setup =>
             {
                 //Include 'SecurityScheme' to use JWT Authentication
@@ -107,6 +118,7 @@ namespace FundooNotes
             {
                 app.UseDeveloperExceptionPage();
             }
+           app.UseCors("AllowOrigin");
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseSwagger();

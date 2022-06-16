@@ -77,10 +77,6 @@ namespace FundooNotes.Controllers
                 {
                     return this.BadRequest(new { success = false, message = " Sorry!!! Failed to Update note" });
                 }
-                //if (note.IsTrash == true)
-                //{
-                //    return this.BadRequest(new { success = false, message = "sorry!! Note Already deleted, please create new note" });
-                //}
                 await this.noteBL.UpdateNote(UserId, noteId, noteUpdateModel);
                 return this.Ok(new { success = true, message = "Note Updated successfully!!!" });
             }
@@ -141,10 +137,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.BadRequest(new { success = false, message = "Sorry!!! Note does not exist" });
                 }
-                if (note.IsTrash == true)
-                {
-                    return this.BadRequest(new { success = false, message = "sorry!! Note Already deleted, please create new note" });
-                }
+                //if (note.IsTrash == true)
+                //{
+                //    return this.BadRequest(new { success = false, message = "sorry!! Note Already deleted, please create new note" });
+                //}
 
                 await this.noteBL.ChangeColour(UserId, noteId, colour);
                 return this.Ok(new { success = true, message = "Note Colour Changed Successfully " });
@@ -175,10 +171,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.BadRequest(new { success = false, message = " Sorry !!! Failed to archieve notes" });
                 }
-                if (note.IsTrash == true)
-                {
-                    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
-                }
+                //if (note.IsTrash == true)
+                //{
+                //    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
+                //}
                 await this.noteBL.ArchiveNote(userId, noteId);
                 return this.Ok(new { success = true, message = "Note Archieved successfully" });
             }
@@ -241,10 +237,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.BadRequest(new { success = false, message = " Sorry!!! Failed to Trash Note" });
                 }
-                if (note.IsTrash == true)
-                {
-                    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
-                }
+                //if (note.IsTrash == true)
+                //{
+                //    return this.BadRequest(new { success = false, message = "sorry!! Note has been deleted, please create new note" });
+                //}
                 await this.noteBL.Trash(userId, noteId);
                 return this.Ok(new { success = true, message = "Trash added successfully!!!" });
             }
@@ -319,7 +315,7 @@ namespace FundooNotes.Controllers
         [Authorize]
         [HttpGet("GetAllNotesByRedis")]
         public async Task<ActionResult> GetAllNotesUsingRedisCache()
-        {
+         {
             try
             {
                 string key = "NotesList";

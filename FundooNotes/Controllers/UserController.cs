@@ -51,8 +51,16 @@ namespace FundooNotes.Controllers
                     return this.BadRequest(new { success = false, message = $"email and password is invalid" });
 
                 }
+               
+                var userdata1 = fundooContext.Users.FirstOrDefault(u => u.Email == email && Password==password);
 
-                string result = this.userBL.LoginUser(email, Password);
+                if (userdata1 == null)
+                {
+                    return this.BadRequest(new { success = false, message = $"password is invalid" });
+
+                }
+
+                string result = this.userBL.LoginUser(email, password);
                 return this.Ok(new { success = true, message = "login successfull",Token=result });
 
             }
